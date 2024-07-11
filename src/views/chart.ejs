@@ -1,0 +1,29 @@
+<%- include("./partials/header.ejs") %>
+
+<div class="bg-gray-700 flex flex-col items-center justify-center min-h-screen">
+      <!-- Back button -->
+  <a href="/user/records">
+    <button class="absolute top-0 left-0 m-4 px-4 py-2 text-white rounded" style="font-family: Inter">
+      Back
+    </button>
+  </a>
+  <div id="chart-showing-container" class="md:w-3/5 w-full h-auto p-4 bg-gray-900 rounded-lg shadow-md text-white" style="font-family: Inter; font-weight: 500;" >
+      <!-- Income and Expense Bar Chart -->
+       <div class="chart-container">
+         <canvas id="barChart"></canvas>
+       </div>
+
+      <select id="timeframe" class="block text-black w-full mt-4 px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-purple-600 focus:ring focus:ring-purple-600 focus:ring-opacity-50">
+          <option value="week">Weekly</option>
+          <option value="month">Monthly</option>
+          <option value="year">Yearly</option>
+      </select>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/javascript/chart.script.js"></script>
+
+<%- include("./partials/footer.ejs") %>

@@ -1,0 +1,28 @@
+<%- include("partials/header.ejs") %>
+<script>
+  document.title = "Signin"
+</script>
+<div class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <div class="max-w-md w-full px-6 py-12 bg-gray-800 rounded-lg custom-shadow mx-4 md:mx-0">
+      <h2 class="text-3xl font-semibold mb-6 text-center" style="font-family: Poppins; font-weight: 600;">Login</h2>
+      <% if (messages.loginError) { %>
+        <div class="flash-message text-center">
+           <p><%= messages.loginError %></p>
+          </div>
+        <% } %>
+      <form action="/user/login" method="POST">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium" style="font-family: Poppins; font-weight: 600;">Email</label>
+          <input id="email" type="email" placeholder="email" name="email" required class="form-input mt-1 block w-full px-3 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-shadow">
+        </div>
+        <div class="mb-6">
+          <label for="password" class="block text-sm font-medium" style="font-family: Poppins; font-weight: 600;">Password</label>
+          <input id="password" type="password" placeholder="password" name="password" required class="form-input mt-1 block w-full px-3 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-shadow">
+        </div>
+        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md w-full" style="font-family: Poppins; font-weight: 600;">Login</button>
+      </form>
+      <p class="text-center mt-4 text-gray-400" style="font-family: Poppins; font-weight: 400;">Don't have an account? <a href="/user/signup" class="text-purple-400 hover:underline">Register here</a></p>
+    </div>
+</div>
+  </body>
+</html>

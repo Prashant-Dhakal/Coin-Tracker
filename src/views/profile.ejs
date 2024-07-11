@@ -1,0 +1,182 @@
+<%- include("./partials/header.ejs") %>
+
+<style>
+  /* Hide scrollbar for Firefox */
+  * {
+    scrollbar-width: none;
+  }
+
+  /* Hide scrollbar for Webkit browsers (such as Chrome and Safari) */
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    font-family: "Roboto", Arial, sans-serif;
+    background-color: #1a202c;
+    color: white;
+  }
+
+  .text-shadow {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+  }
+
+  .custom-bg {
+    background: #4c1d95;
+    /* Purple 800 */
+    background: -webkit-linear-gradient(to right, #4c1d95, #ab3e7b, #007bff);
+    background: linear-gradient(to right, #4c1d95, #ab3e7b, #007bff);
+  }
+</style>
+<div class="container mx-auto md:px-4 mb-16">
+  <!-- Profile Card -->
+  <div
+    class="h-auto bg-gray-800 text-gray-200 md:rounded-t-2xl shadow-lg overflow-hidden relative">
+    <!-- Copied Alert -->
+    <div
+      id="copiedAlert"
+      class="transition-opacity duration-300 ease-in-out bg-white text-black px-4 py-2 mt-4 mx-auto rounded-md shadow-md absolute opacity-0 z-10">
+      Copied <i class="text-[#64CD8A] text-lg ri-checkbox-circle-fill"></i>
+    </div>
+
+    <div
+      class="bg-gradient-to-r from-purple-700 via-purple-800 to-purple-900 h-32 md:40"
+    style="background: url('https://img.freepik.com/premium-photo/stock-market-forex-trading-graph_73426-194.jpg?w=900'); background-position: center; background-repeat: no-repeat; background-size: cover;" ></div>
+    <div class="relative -mt-16 flex justify-center">
+      <img
+        src="<%= loggedUser.user.avatar %>"
+        class="rounded-full border-4 border-gray-900 h-32 w-32 object-cover"
+        alt="User Avatar"
+      />
+    </div>
+    <div class="text-center mt-2">
+      <h1 class="text-2xl text-gray-100"><%= loggedUser.user.username %></h1>
+      <p class="text-sm text-gray-400"><%= loggedUser.user.email %></p>
+    </div>
+    <div class="md:px-8 py-4">
+      <div class="flex justify-center text-center border-t border-gray-700 py-4">
+        
+        <section class="flex justify-center items-center w-full md:w-1/2 space-x-4 mb-4 md:mb-0 h-full">
+          <div>
+            <i class="fa-solid fa-arrow-up-long text-3xl" style="color: #21e45b;"></i>
+          </div>
+          <div>
+            <p class="text-gray-400 mb-2">Income</p>
+            <p class="text-sm md:text-lg font-semibold text-green-500">$<%= incomeFormatted %></p>
+          </div>
+        </section>
+
+        <section class="flex justify-center items-center w-full md:w-1/2 space-x-4 border-l border-gray-600 h-full">
+          <div>
+            <i class="fa-solid fa-arrow-down-long text-3xl" style="color: #e42131;"></i>
+          </div>
+          <div>
+            <p class="text-gray-400 mb-2">Expense</p>
+            <p class="text-sm md:text-lg font-semibold text-red-500">$<%= expenseFormatted %></p>
+          </div>
+        </section>
+      </div>
+      
+    </div>
+    
+    <div class="bg-gray-800 text-gray-200 p-4 rounded-b-2xl space-y-2">
+      <div
+      id="shareButton"
+      class="cursor-pointer flex justify-between items-center py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200 mb-2">
+      <span>Share with a Friend</span>
+      <i class="ri-arrow-right-s-line text-xl"></i>
+    </div>
+    <a href="/user/feedback">
+      <div class="flex justify-between items-center py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200 mb-2">
+        <span>Feedback</span>
+        <i class="ri-arrow-right-s-line text-xl"></i>
+      </div>
+    </a>
+      <a href="https://www.facebook.com/profile.php?id=100077634731443" target="_blank">
+        <div class="flex justify-between items-center py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200 mb-2">
+          <span>Contact us</span>
+          <i class="ri-arrow-right-s-line text-xl"></i>
+        </div>
+      </a>
+      <a href="/user/setting">
+        <div class="flex justify-between items-center py-2 px-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
+          <span>Setting</span>
+          <i class="ri-arrow-right-s-line text-xl"></i>
+        </div>
+      </a>
+    </div>
+    
+  </div>
+</div>
+
+<script>
+  document.title = "Profile";
+
+  function copyToClipboard() {
+    let shareButton = document.querySelector("#shareButton");
+    let copiedAlert = document.querySelector("#copiedAlert");
+    let copiedText = "https://coin-tracker-6y47.onrender.com"; 
+
+    shareButton.addEventListener("click", () => {
+      // Attempt to use clipboard API
+      if (navigator.clipboard) {
+        navigator.clipboard
+          .writeText(copiedText)
+          .then(() => {
+            showCopiedAlert();
+          })
+          .catch((err) => {
+            console.error("Unable to copy: ", err);
+            fallbackCopyTextToClipboard();
+          });
+      } else {
+        // Fallback for browsers that do not support clipboard API
+        fallbackCopyTextToClipboard();
+      }
+    });
+
+    function fallbackCopyTextToClipboard() {
+      // Create a temporary input element
+      let textInput = document.createElement("textarea");
+      textInput.value = copiedText;
+      textInput.setAttribute("readonly", "");
+      textInput.style.position = "absolute";
+      textInput.style.left = "-9999px"; // Move off-screen
+      document.body.appendChild(textInput);
+
+      // Select and copy the text
+      textInput.select();
+      textInput.setSelectionRange(0, copiedText.length); // For mobile devices
+
+      let successful = false;
+      try {
+        successful = document.execCommand("copy");
+      } catch (err) {
+        console.error("Unable to copy: ", err);
+      }
+
+      // Clean up
+      document.body.removeChild(textInput);
+
+      if (successful) {
+        showCopiedAlert();
+      } else {
+        console.error("Fallback: Unable to copy.");
+        // Handle the failure
+      }
+    }
+
+    function showCopiedAlert() {
+      copiedAlert.classList.remove("opacity-0");
+      copiedAlert.classList.add("opacity-1");
+      setTimeout(() => {
+        copiedAlert.classList.add("opacity-0");
+        copiedAlert.classList.remove("opacity-1");
+      }, 2000); // Fade out after 2 seconds (adjust as needed)
+    }
+  }
+
+  copyToClipboard();
+</script>
+
+<%- include("./partials/footer.ejs") %>

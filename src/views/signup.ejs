@@ -1,0 +1,39 @@
+<%- include("partials/header.ejs") %>
+
+<script>
+  document.title = "Signup"
+</script>
+
+<div class="bg-gray-900 text-white flex items-center justify-center h-screen">
+  <div class="max-w-md w-full px-6 py-12 bg-gray-800 rounded-lg custom-shadow mx-4 md:mx-0">
+    <h2 class="text-3xl font-semibold mb-6 text-center" style="font-family: Poppins; font-weight: 600;">Register</h2>
+    <% if (messages.registerError) { %>
+      <div class="flash-message text-center">
+         <p><%= messages.registerError %></p>
+        </div>
+      <% } %>
+    <form action="/user/register" method="POST">
+      <div class="mb-4">
+        <label class="block text-sm font-medium" style="font-family: Poppins; font-weight: 600;">Username</label>
+        <input id="username" type="text" placeholder="username" name="username" required class="form-input mt-1 block w-full px-3 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-shadow">
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium" style="font-family: Poppins; font-weight: 600;">Full Name</label>
+        <input id="fullName" type="text" placeholder="fullName" name="fullName" required class="form-input mt-1 block w-full px-3 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-shadow">
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-medium" style="font-family: Poppins; font-weight: 600;">Email</label>
+        <input id="email" type="email" placeholder="enter non existed email" name="email" required class="form-input mt-1 block w-full px-3 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-shadow">
+      </div>
+      <div class="mb-6">
+        <label class="block text-sm font-medium" style="font-family: Poppins; font-weight: 600;">Password</label>
+        <input id="password" type="password" placeholder="password" name="password" required class="form-input mt-1 block w-full px-3 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-shadow">
+      </div>
+      <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md w-full">Register</button>
+    </form>
+    <p class="text-center mt-4 text-gray-400" style="font-family: Poppins; font-weight: 400;">Already have an account? <a href="/user/signin" class="text-purple-400 hover:underline">Login here</a></p>
+  </div>
+</div>
+
+</body>
+</html>

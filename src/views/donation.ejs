@@ -1,0 +1,97 @@
+<%- include("./partials/header.ejs") %>
+
+<a href="/user/setting">
+  <button class="absolute top-0 left-0 m-4 px-4 py-2 text-white bg-purple-600 rounded hover:bg-purple-700 transition-colors" style="font-family:Inter">
+    Back
+  </button>
+</a>
+
+<div id="confirmBox" class="fixed inset-0 flex items-center justify-center z-50 bg-opacity-25 bg-gray-400 hidden">
+  <div class="max-w-md mx-auto bg-white border text-center border-gray-300 rounded-lg shadow-lg p-4">
+    <p id="confirm-text" class="text-lg text-gray-800 mb-4">Donate for a child who is starving?</p>
+    <div class="flex justify-center">
+      <button id="yes" onclick="hideConfirmBox()" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-800 focus:outline-none">Yes</button>
+      <button id="no" onclick="showEmotionalGame()" class="px-4 py-2 bg-purple-300 text-white rounded-md hover:bg-purple-400 focus:outline-none ml-4">No</button>
+    </div>
+  </div>
+</div>
+
+<div id="emotionalGame" class="fixed inset-0 flex items-center justify-center z-50 bg-opacity-25 bg-gray-400 hidden">
+  <div class="max-w-md mx-auto bg-white border text-center border-gray-300 rounded-lg shadow-lg p-4">
+    <p id="game-text" class="text-lg text-gray-800 mb-4">Would you let a child die?</p>
+    <div class="flex justify-center">
+      <button id="gameOption1" onclick="showNextMessage('gameMessage2')" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-800 focus:outline-none">No, I won't</button>
+      <button id="gameOption2" onclick="showNextMessage('gameMessage1')" class="px-4 py-2 bg-purple-300 text-white rounded-md hover:bg-purple-400 focus:outline-none ml-4">Yes</button>
+    </div>
+  </div>
+</div>
+
+<div id="gameMessage1" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-opacity-25 bg-gray-400">
+  <div class="max-w-md mx-auto bg-white border text-center border-gray-300 rounded-lg shadow-lg p-4">
+    <p class="text-lg text-gray-800 mb-4">You chose not to help. The child starves. Do you feel good about this?</p>
+    <div class="flex justify-center">
+      <button onclick="proceedToDonate()" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-800 focus:outline-none">No, I'll Donate</button>
+    </div>
+  </div>
+</div>
+
+<div id="gameMessage2" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-opacity-25 bg-gray-400">
+  <div class="max-w-md mx-auto bg-white border text-center border-gray-300 rounded-lg shadow-lg p-4">
+    <p class="text-lg text-gray-800 mb-4">Thank you for choosing to help. Your donation can save a life.</p>
+    <div class="flex justify-center">
+      <button onclick="proceedToDonate()" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-800 focus:outline-none">Proceed to Donate</button>
+    </div>
+  </div>
+</div>
+
+<div class="min-h-screen bg-gray-800 flex items-center justify-center py-8">
+  <div class="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl md:w-3/4 lg:w-1/2">
+    <img src="/images/donation.jpg" alt="Donation Image" class="h-80 w-72 object-cover rounded-t-xl md:w-full md:h-auto">
+  </div>
+</div>
+
+<script>
+  document.title = "Donation";
+
+  function showConfirmBox() {
+    let confirmBox = document.getElementById("confirmBox");
+    confirmBox.classList.remove("hidden");
+  }
+
+  showConfirmBox();
+
+  function hideConfirmBox() {
+    let confirmBox = document.getElementById("confirmBox");
+    confirmBox.classList.add("hidden");
+  }
+
+  function showEmotionalGame() {
+    let emotionalGame = document.getElementById("emotionalGame");
+    emotionalGame.classList.remove("hidden");
+    hideConfirmBox(); // Hide the confirmation box when showing the emotional game prompt
+  }
+
+  function hideEmotionalGame() {
+    let emotionalGame = document.getElementById("emotionalGame");
+    emotionalGame.classList.add("hidden");
+  }
+
+  function showNextMessage(messageId) {
+    let messages = document.querySelectorAll("[id^='gameMessage']");
+    messages.forEach((message) => {
+      message.classList.add("hidden");
+    });
+
+    let nextMessage = document.getElementById(messageId);
+    nextMessage.classList.remove("hidden");
+  }
+
+  function proceedToDonate() {
+    hideEmotionalGame();
+    document.getElementById("gameMessage1").classList.add("hidden");
+    document.getElementById("gameMessage2").classList.add("hidden");
+    showConfirmBox();
+  }
+</script>
+
+<%- include("./partials/footer.ejs") %>
